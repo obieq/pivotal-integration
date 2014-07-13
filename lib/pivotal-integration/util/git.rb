@@ -161,7 +161,7 @@ class PivotalIntegration::Util::Git
 
     print "Merging #{development_branch} to #{root_branch}... "
     PivotalIntegration::Util::Shell.exec "git checkout --quiet #{root_branch}"
-    PivotalIntegration::Util::Shell.exec "git merge --quiet --no-ff -m \"Merge #{development_branch} to #{root_branch}\n\n[#{no_complete ? '' : 'Completes '}##{story.id}]\" #{development_branch}"
+    PivotalIntegration::Util::Shell.exec "git merge --quiet --no-ff -m \"Merge #{development_branch} to #{root_branch}\n\n[#{no_complete ? '' : 'Accepts '}##{story.id}]\" #{development_branch}"
     puts 'OK'
 
     unless no_delete
