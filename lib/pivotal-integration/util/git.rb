@@ -161,7 +161,7 @@ class PivotalIntegration::Util::Git
 
     print "Merging #{development_branch} to #{root_branch}... "
     PivotalIntegration::Util::Shell.exec "git checkout --quiet #{root_branch}"
-    PivotalIntegration::Util::Shell.exec "git merge --quiet --no-ff -m \"Merge #{development_branch} to #{root_branch}\n\n[#{no_complete ? '' : 'Accepts '}##{story.id}]\" #{development_branch}"
+    PivotalIntegration::Util::Shell.exec "git merge --quiet --no-ff -m \"Merge #{development_branch} to #{root_branch}\n\n[#{no_complete ? '' : 'Completes '}##{story.id}]\" #{development_branch}"
     puts 'OK'
 
     unless no_delete
@@ -203,7 +203,7 @@ class PivotalIntegration::Util::Git
     remote = get_config KEY_REMOTE, :branch
 
     print "Pushing to #{remote}... "
-    PivotalIntegration::Util::Shell.exec "git push --quiet origin #{remote} " + refs.join(' ')
+    PivotalIntegration::Util::Shell.exec "git push origin #{remote} " + refs.join(' ')
     puts 'OK'
   end
 
