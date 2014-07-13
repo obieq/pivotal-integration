@@ -44,7 +44,7 @@ class PivotalIntegration::Command::Finish < PivotalIntegration::Command::Base
       PivotalIntegration::Util::Git.merge(@configuration.story, no_complete, no_delete)
     end
 
-    PivotalIntegration::Util::Git.push PivotalIntegration::Util::Git.branch_name
+    PivotalIntegration::Util::Git.push 
   end
 
 end

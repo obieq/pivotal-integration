@@ -203,7 +203,7 @@ class PivotalIntegration::Util::Git
     remote = get_config KEY_REMOTE, :branch
 
     print "Pushing to #{remote}... "
-    PivotalIntegration::Util::Shell.exec "git push origin #{remote} " + refs.join(' ')
+    PivotalIntegration::Util::Shell.exec "git push #{remote} " + refs.join(' ')
     puts 'OK'
   end
 
