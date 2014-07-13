@@ -42,9 +42,6 @@ class PivotalIntegration::Command::Finish < PivotalIntegration::Command::Base
     unless no_merge
       PivotalIntegration::Util::Git.trivial_merge?
       PivotalIntegration::Util::Git.merge(@configuration.story, no_complete, no_delete)
-      unless no_complete
-        PivotalIntegration::Util::Story.mark(@configuration.story, :completed)
-      end
     end
 
     PivotalIntegration::Util::Git.push PivotalIntegration::Util::Git.branch_name
