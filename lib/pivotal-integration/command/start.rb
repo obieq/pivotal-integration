@@ -49,7 +49,8 @@ class PivotalIntegration::Command::Start < PivotalIntegration::Command::Base
     PivotalIntegration::Util::Story.pretty_print story
 
     development_branch_name = development_branch_name story
-    PivotalIntegration::Util::Git.switch_branch 'master' unless use_current_branch
+    base_branch = PivotalIntegration::Util::Git.get_config_with_default 'develop-branch', 'master'
+    PivotalIntegration::Util::Git.switch_branch base_branch unless use_current_branch
     PivotalIntegration::Util::Git.create_branch development_branch_name
     @configuration.story = story
 
