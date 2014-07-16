@@ -155,10 +155,10 @@ class PivotalIntegration::Util::Story
       story = choose do |menu|
         menu.prompt = 'Choose story to start: '
 
-        candidates.each do |story|
-          name = story.owned_by ? '[%s] ' % story.owned_by : ''
-          name += type ? story.name : '%-7s %s' % [story.story_type.upcase, story.name]
-          menu.choice(name) { story }
+        candidates.each do |s|
+          name = s.owned_by ? '[%s] ' % s.owned_by : ''
+          name += type ? s.name : '%-7s %s' % [s.story_type.upcase, s.name]
+          menu.choice(name) { s }
         end
       end
 
