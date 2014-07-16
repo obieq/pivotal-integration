@@ -31,45 +31,89 @@ describe PivotalIntegration::Util::Story do
 
   it 'should pretty print story information' do
     story = double('story')
-    story.should_receive(:name)
+    story.should_receive(:name).and_return("A Story")
+    story.should_receive(:id).and_return(12345)
+    story.should_receive(:project_id)
+    story.should_receive(:story_type).and_return("type")
+    story.should_receive(:current_state).and_return("active")
+    story.should_receive(:estimate).twice.and_return("3")
     story.should_receive(:description).and_return("description-1\ndescription-2")
     PivotalTracker::Note.should_receive(:all).and_return([
       PivotalTracker::Note.new(:noted_at => Date.new, :text => 'note-1')
     ])
 
+    project = double('project')
+    project.should_receive(:account).and_return 'account'
+    PivotalTracker::Project.should_receive(:find).and_return(project)
+
     PivotalIntegration::Util::Story.pretty_print story
 
     expect($stdout.string).to eq(
-      "      Title: \n" +
+      "         ID: 12345\n" +
+      "    Project: account\n" +
+      "      Title: A Story\n" +
       "Description: description-1\n" +
       "             description-2\n" +
+      "       Type: Type\n" +
+      "      State: Active\n" +
+      "   Estimate: 3\n" +
       "     Note 1: note-1\n" +
       "\n")
   end
 
   it 'should not pretty print description or notes if there are none (empty)' do
     story = double('story')
-    story.should_receive(:name)
+    story.should_receive(:name).and_return('A story')
     story.should_receive(:description)
+    story.should_receive(:id).and_return(12345)
+    story.should_receive(:project_id)
+    story.should_receive(:story_type).and_return("type")
+    story.should_receive(:current_state).and_return("active")
+    story.should_receive(:estimate).twice.and_return("3")
     PivotalTracker::Note.should_receive(:all).and_return([])
+
+    project = double('project')
+    project.should_receive(:account).and_return 'account'
+    PivotalTracker::Project.should_receive(:find).and_return(project)
+
 
     PivotalIntegration::Util::Story.pretty_print story
 
     expect($stdout.string).to eq(
-      "      Title: \n" +
+      "         ID: 12345\n" +
+      "    Project: account\n" +
+      "      Title: A story\n" +
+      "       Type: Type\n" +
+      "      State: Active\n" +
+      "   Estimate: 3\n" +
       "\n")
   end
 
   it 'should not pretty print description or notes if there are none (nil)' do
     story = double('story')
-    story.should_receive(:name)
+    story.should_receive(:name).and_return('A story')
     story.should_receive(:description).and_return('')
+    story.should_receive(:id).and_return(12345)
+    story.should_receive(:project_id)
+    story.should_receive(:story_type).and_return("type")
+    story.should_receive(:current_state).and_return("active")
+    story.should_receive(:estimate).twice.and_return("3")
     PivotalTracker::Note.should_receive(:all).and_return([])
+
+    project = double('project')
+    project.should_receive(:account).and_return 'account'
+    PivotalTracker::Project.should_receive(:find).and_return(project)
+
 
     PivotalIntegration::Util::Story.pretty_print story
 
     expect($stdout.string).to eq(
-      "      Title: \n" +
+      "         ID: 12345\n" +
+      "    Project: account\n" +
+      "      Title: A story\n" +
+      "       Type: Type\n" +
+      "      State: Active\n" +
+      "   Estimate: 3\n" +
       "\n")
   end
 

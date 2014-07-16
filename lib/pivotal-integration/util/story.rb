@@ -16,6 +16,7 @@
 require_relative 'util'
 require 'highline/import'
 require 'pivotal-tracker'
+require 'active_support/core_ext/string'
 
 # Utilities for dealing with +PivotalTracker::Story+s
 class PivotalIntegration::Util::Story
