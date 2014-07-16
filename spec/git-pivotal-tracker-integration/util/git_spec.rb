@@ -209,7 +209,7 @@ describe PivotalIntegration::Util::Git do
 
   it 'should push changes with refs' do
     PivotalIntegration::Util::Git.should_receive(:get_config).with('remote', :branch).and_return('origin')
-    PivotalIntegration::Util::Shell.should_receive(:exec).with('git push --quiet origin foo bar')
+    PivotalIntegration::Util::Shell.should_receive(:exec).with('git push origin foo bar')
 
     PivotalIntegration::Util::Git.push 'foo', 'bar'
   end
