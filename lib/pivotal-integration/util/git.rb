@@ -192,7 +192,7 @@ class PivotalIntegration::Util::Git
         puts "Creating a pull request for #{branch_name}... "
         system "hub pull-request"
         puts 'OK'
-      end
+    end
   end
 
   # Push changes to the remote of the current branch
