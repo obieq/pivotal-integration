@@ -14,9 +14,9 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/command/base'
-require 'git-pivotal-tracker-integration/command/configuration'
-require 'git-pivotal-tracker-integration/util/git'
+require 'pivotal-integration/command/base'
+require 'pivotal-integration/command/configuration'
+require 'pivotal-integration/util/git'
 
 describe PivotalIntegration::Command::Base do
 

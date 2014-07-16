@@ -14,7 +14,7 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/util/shell'
+require 'pivotal-integration/util/shell'
 
 describe PivotalIntegration::Util::Shell do
 

@@ -14,10 +14,10 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/command/configuration'
-require 'git-pivotal-tracker-integration/command/release'
-require 'git-pivotal-tracker-integration/util/git'
-require 'git-pivotal-tracker-integration/util/story'
+require 'pivotal-integration/command/configuration'
+require 'pivotal-integration/command/release'
+require 'pivotal-integration/util/git'
+require 'pivotal-integration/util/story'
 require 'pivotal-tracker'
 
 describe PivotalIntegration::Command::Release do

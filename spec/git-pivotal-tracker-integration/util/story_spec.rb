@@ -14,7 +14,7 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/util/story'
+require 'pivotal-integration/util/story'
 require 'pivotal-tracker'
 
 describe PivotalIntegration::Util::Story do

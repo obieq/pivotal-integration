@@ -14,7 +14,7 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/version-update/gradle'
+require 'pivotal-integration/version-update/gradle'
 
 describe PivotalIntegration::VersionUpdate::Gradle do
 

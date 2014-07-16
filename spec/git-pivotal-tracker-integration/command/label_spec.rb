@@ -14,9 +14,9 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/command/configuration'
-require 'git-pivotal-tracker-integration/command/label'
-require 'git-pivotal-tracker-integration/util/git'
+require 'pivotal-integration/command/configuration'
+require 'pivotal-integration/command/label'
+require 'pivotal-integration/util/git'
 require 'pivotal-tracker'
 
 describe PivotalIntegration::Command::Label do

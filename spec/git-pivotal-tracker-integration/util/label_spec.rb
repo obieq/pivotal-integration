@@ -14,7 +14,7 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'git-pivotal-tracker-integration/util/label'
+require 'pivotal-integration/util/label'
 require 'pivotal-tracker'
 
 describe PivotalIntegration::Util::Label do
