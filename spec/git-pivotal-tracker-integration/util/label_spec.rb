@@ -15,6 +15,7 @@
 
 require 'spec_helper'
 require 'pivotal-integration/util/label'
+require 'pivotal-integration/util/story'
 require 'pivotal-tracker'
 
 describe PivotalIntegration::Util::Label do
@@ -80,32 +81,6 @@ describe PivotalIntegration::Util::Label do
   it 'should pretty print story labels' do
     @story.should_receive(:labels).and_return('label1,label2')
     PivotalIntegration::Util::Label.list @story
-  end
-
-  it 'should not pretty print description or notes if there are none (empty)' do
-    story = double('story')
-    story.should_receive(:name)
-    story.should_receive(:description)
-    PivotalTracker::Note.should_receive(:all).and_return([])
-
-    PivotalIntegration::Util::Story.pretty_print story
-
-    expect($stdout.string).to eq(
-      "      Title: \n" +
-      "\n")
-  end
-
-  it 'should not pretty print description or notes if there are none (nil)' do
-    story = double('story')
-    story.should_receive(:name)
-    story.should_receive(:description).and_return('')
-    PivotalTracker::Note.should_receive(:all).and_return([])
-
-    PivotalIntegration::Util::Story.pretty_print story
-
-    expect($stdout.string).to eq(
-      "      Title: \n" +
-      "\n")
   end
 
   it 'should assign owner to story and notify about success' do
