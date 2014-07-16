@@ -37,8 +37,7 @@ describe PivotalIntegration::Command::Finish do
     PivotalIntegration::Util::Git.should_receive(:trivial_merge?)
     PivotalIntegration::Command::Configuration.any_instance.should_receive(:story)
     PivotalIntegration::Util::Git.should_receive(:merge)
-    PivotalIntegration::Util::Git.should_receive(:branch_name).and_return('master')
-    PivotalIntegration::Util::Git.should_receive(:push).with('master')
+    PivotalIntegration::Util::Git.should_receive(:push).with(no_args)
 
     @finish.run nil
   end
