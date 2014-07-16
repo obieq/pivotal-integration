@@ -184,7 +184,7 @@ describe PivotalIntegration::Util::Git do
     PivotalIntegration::Util::Git.should_receive(:branch_name).and_return('development_branch')
     PivotalIntegration::Util::Git.should_receive(:get_config).with('root-branch', :branch).and_return('master')
     PivotalIntegration::Util::Shell.should_receive(:exec).with('git checkout --quiet master')
-    PivotalIntegration::Util::Shell.should_receive(:exec).with("git merge --quiet --no-ff -m \"Merge development_branch to master\n\n[Completes #12345678]\" development_branch")
+    PivotalIntegration::Util::Shell.should_receive(:exec).with("git merge --quiet --no-ff -m \"Merge development_branch to master\n\n[Delivers #12345678]\" development_branch")
     PivotalIntegration::Util::Shell.should_receive(:exec).with('git branch --quiet -D development_branch')
 
     PivotalIntegration::Util::Git.merge PivotalTracker::Story.new(:id => 12345678), nil, nil
@@ -202,7 +202,7 @@ describe PivotalIntegration::Util::Git do
 
   it 'should push changes without refs' do
     PivotalIntegration::Util::Git.should_receive(:get_config).with('remote', :branch).and_return('origin')
-    PivotalIntegration::Util::Shell.should_receive(:exec).with('git push --quiet origin ')
+    PivotalIntegration::Util::Shell.should_receive(:exec).with('git push origin ')
 
     PivotalIntegration::Util::Git.push
   end
