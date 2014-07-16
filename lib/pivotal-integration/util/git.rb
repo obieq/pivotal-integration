@@ -17,6 +17,8 @@ require_relative 'shell'
 require_relative 'util'
 require 'cgi'
 require 'launchy'
+require 'active_support'
+require 'active_support/core_ext/string'
 
 # Utilities for dealing with Git
 class PivotalIntegration::Util::Git
