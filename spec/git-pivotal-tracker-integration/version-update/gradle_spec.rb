@@ -22,7 +22,7 @@ describe PivotalIntegration::VersionUpdate::Gradle do
     Dir.mktmpdir do |root|
       updater = PivotalIntegration::VersionUpdate::Gradle.new(root)
 
-      expect(updater.supports?).to be_false
+      expect(updater.supports?).to be false
     end
   end
 
@@ -33,7 +33,7 @@ describe PivotalIntegration::VersionUpdate::Gradle do
 
       updater = PivotalIntegration::VersionUpdate::Gradle.new(root)
 
-      expect(updater.supports?).to be_false
+      expect(updater.supports?).to be false
     end
   end
 
@@ -44,7 +44,7 @@ describe PivotalIntegration::VersionUpdate::Gradle do
 
       updater = PivotalIntegration::VersionUpdate::Gradle.new(root)
 
-      expect(updater.supports?).to be_true
+      expect(updater.supports?).to be true
     end
   end
 

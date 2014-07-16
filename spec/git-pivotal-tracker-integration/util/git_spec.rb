@@ -123,7 +123,7 @@ describe PivotalIntegration::Util::Git do
       PivotalIntegration::Util::Git.add_hook 'prepare-commit-msg', __FILE__
 
       File.should_receive(:exist?).and_call_original
-      expect(File.exist?(hook)).to be_false
+      expect(File.exist?(hook)).to be false
     end
   end
 
@@ -136,7 +136,7 @@ describe PivotalIntegration::Util::Git do
       PivotalIntegration::Util::Git.add_hook 'prepare-commit-msg', __FILE__
 
       File.should_receive(:exist?).and_call_original
-      expect(File.exist?(hook)).to be_true
+      expect(File.exist?(hook)).to be true
     end
   end
 
@@ -148,7 +148,7 @@ describe PivotalIntegration::Util::Git do
       PivotalIntegration::Util::Git.add_hook 'prepare-commit-msg', __FILE__, true
 
       File.should_receive(:exist?).and_call_original
-      expect(File.exist?(hook)).to be_true
+      expect(File.exist?(hook)).to be true
     end
   end
 
