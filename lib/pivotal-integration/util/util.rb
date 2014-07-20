@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require_relative '../../pivotal_integration'
+require_relative '../../base'
 
 # A module encapsulating utilities for the project
 module PivotalIntegration::Util

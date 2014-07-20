@@ -13,7 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# The root module for the project
-module PivotalIntegration
-  VERSION = '1.6.0.2'
+require_relative 'base'
+
+directory = File.expand_path("./pivotal-integration/command/*.rb", File.dirname(__FILE__))
+Dir.glob(directory).each do |file|
+  next if %w(base.rb command.rb configuration.rb runner.rb).include?(File.basename(file))
+  require file
 end
+
+require_relative './pivotal-integration/command/runner'
