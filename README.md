@@ -5,11 +5,18 @@
 
 
 ## Installation
-`pivotal-integration` requires at least **Ruby 1.8.7** and **Git 1.8.2.1** in order to run.  It is tested against Rubies _1.8.7_, _1.9.3_, and _2.0.0_.  In order to install it, do the following:
+`pivotal-integration` requires at least **Ruby 1.8.7** and **Git 1.8.2.1** in order to run.  It is tested against Rubies _1.8.7_, _1.9.3_, and _2.0.0_.
+
+This fork is not in the rubygems repository! To install it, do the following:
 
 ```plain
-$ gem install pivotal-integration
+$ git clone https://github.com/demands/pivotal-integration
+$ cd pivotal-integration
+$ gem build pivotal-integration.gemspec
+$ gem install pivotal-integration-1.6.0.2.gem
 ```
+
+Eventually the install process will make a bit more sense.
 
 
 ## Usage
