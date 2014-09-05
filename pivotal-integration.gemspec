@@ -12,13 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'pivotal_integration'
-
 Gem::Specification.new do |s|
   s.name        = 'pivotal-integration'
-  s.version     = PivotalIntegration::VERSION
+  s.version     = '1.6.0.2'
   s.summary     = 'Git commands for integration with Pivotal Tracker'
   s.description = 'Provides a set of additional Git commands to help developers when working with Pivotal Tracker'
   s.authors     = ['Ben Hale', 'Daniel Vandersluis']
