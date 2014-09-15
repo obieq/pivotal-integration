@@ -20,12 +20,18 @@ STORY_TAG="[#$STORY_ID]"
 
 if [[ $2 != "commit" && -n $STORY_ID ]]; then
 	ORIG_MSG_FILE="$1"
-	TEMP=$(mktemp /tmp/git-XXXXX)
+
+  # don't mess with fixup commits
+  if grep -F "fixup!" "$ORIG_MSG_FILE"; then
+    exit 0
+  fi
 
   # don't duplicate the tag if it's already there
   if grep -F "$STORY_TAG" "$ORIG_MSG_FILE"; then
     exit 0
   fi
+
+	TEMP=$(mktemp /tmp/git-XXXXX)
 
 	(printf "\n\n$STORY_TAG" ; cat "$1") > "$TEMP"
 	cat "$TEMP" > "$ORIG_MSG_FILE"
