@@ -16,8 +16,9 @@
 require_relative 'command'
 require_relative 'configuration'
 require_relative '../util/git'
+require_relative '../util/person'
 require_relative '../util/story'
-require 'pivotal-tracker'
+require 'tracker_api'
 
 # An abstract base class for all commands
 # @abstract Subclass and override {#run} to implement command functionality
@@ -33,10 +34,12 @@ class PivotalIntegration::Command::Base
     @repository_root = PivotalIntegration::Util::Git.repository_root
     @configuration = PivotalIntegration::Command::Configuration.new
 
-    PivotalTracker::Client.token = @configuration.api_token
-    PivotalTracker::Client.use_ssl = true
+    # @project = PivotalTracker::Project.find(@configuration.project_id)
+    client = PivotalIntegration::Command::Configuration.api_client
+    @project = client.project(@configuration.project_id)
 
-    @project = PivotalTracker::Project.find @configuration.project_id
+    # set pivotal tracker user name if not already set
+    PivotalIntegration::Util::Person.my_pivotal_tracker_user_name
   end
 
   # The main entry point to the command's execution

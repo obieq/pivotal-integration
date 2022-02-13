@@ -1,8 +1,36 @@
 # Git Pivotal Tracker Integration
+
+******** BEGIN WARNING ********
+
+This version was forked because the library has not been updated in years and does not work
+because it's not compatible with PivotalTracker's current API (v5)
+
+This forked version addresses this issue by leveraging: https://github.com/ProductPlan/tracker_api
+
+Thus far, this version is a partial update.
+Here's the current list of commands that have been updated
+
+```sh
+
+pivotal start
+pivotal start new
+pivotal info
+pivotal assign
+pivotal user
+
+```
+
+## Local Installation
+```sh
+gem build pivotal-integration.gemspec && gem install ./pivotal-integration-3.0.gem
+```
+
+******** END WARNING ********
+
+
 `pivotal-integration` provides a set of additional Git commands to help developers when working with [Pivotal Tracker][pivotal-tracker]. It is based on and extended from [git-pivotal-tracker-integration](https://github.com/nebhale/git-pivotal-tracker-integration) by Ben Hale.
 
 [pivotal-tracker]: http://www.pivotaltracker.com
-
 
 ## Installation
 `pivotal-integration` requires at least **Ruby 1.8.7** and **Git 1.8.2.1** in order to run.  It is tested against Rubies _1.8.7_, _1.9.3_, and _2.0.0_.
@@ -80,9 +108,9 @@ $ pivotal start new
 2. Bug
 3. Chore
 4. Release
-What type of story do you want to create: 
+What type of story do you want to create:
 Provide a name for the new story:
-Choose an estimation for this story [0, 1, 2, 3, enter for none]: 
+Choose an estimation for this story [0, 1, 2, 3, enter for none]:
 ```
 
 Finally the command can be run without specifying anything.  In this case, it will then offer the first five stories (based on the backlog's order) of any type to choose from.
@@ -203,7 +231,7 @@ Once these have been entered, the version string for the current project is upda
 
 Version update is currently supported for the following kinds of projects.  If you do not see a project type that you would like supported, please open an issue or submit a pull request.
 
-### `pivotal new [type] [name]` 
+### `pivotal new [type] [name]`
 This command lets you create a new story in Pivotal Tracker directly from the command line. The story type and name can be provided as command line options or from prompts. Creating a story in this way adds it to the Icebox, and does not assign or start the story (contrasted to `pivotal start new`).
 
 ```plain
@@ -216,8 +244,8 @@ pivotal new
 2. Bug
 3. Chore
 4. Release
-What type of story do you want to create: 
-Provide a name for the new story: 
+What type of story do you want to create:
+Provide a name for the new story:
 ```
 
 ### `pivotal info`

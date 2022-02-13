@@ -32,10 +32,11 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.8.7'
 
-  s.add_dependency 'activesupport'
-  s.add_dependency 'highline', '~> 1.6'
-  s.add_dependency 'launchy'
-  s.add_dependency 'pivotal-tracker', '~> 0.5'
+  s.add_dependency 'activesupport', '7.0.2'
+  s.add_dependency 'highline', '1.6.21'
+  s.add_dependency 'launchy', '2.5.0'
+  s.add_dependency 'pivotal-tracker', '0.5.13'
+  s.add_dependency 'tracker_api', '1.13.0'
 
   s.add_development_dependency 'bundler', '~> 1.3'
   s.add_development_dependency 'rake', '~> 10.0'

@@ -15,7 +15,7 @@
 
 require_relative 'util'
 
-# Utilities for dealing with the shell
+# Utilities for dealing with +PivotalTracker::Label+s
 class PivotalIntegration::Util::Label
 
   # Add labels to story if they are not already appended to story.
@@ -23,11 +23,16 @@ class PivotalIntegration::Util::Label
   # @param [PivotalTracker::Story, String] labels as Strings, one label per parameter.
   # @return [boolean] Boolean defining whether story was updated or not.
   def self.add(story, *labels)
-    current_labels = story.labels.split(',') rescue []
-    new_labels = current_labels | labels
-    if story.update(:labels => new_labels)
+    orig_labels = story.labels.map{|l| l.name}
+
+    labels.each do |label_name|
+      label = TrackerApi::Resources::Label.new(name: label_name)
+      story.labels = story.labels.dup.push(label)
+    end
+
+    if story.save
       puts "Updated labels on #{story.name}:"
-      puts "#{current_labels} => #{new_labels}"
+      puts "#{orig_labels} => #{orig_labels | labels}"
     else
       abort("Failed to update labels on Pivotal Tracker")
     end
@@ -51,11 +56,38 @@ class PivotalIntegration::Util::Label
   # @param [PivotalTracker::Story, String] labels as Strings, one label per parameter.
   # @return [boolean] Boolean defining whether story was updated or not.
   def self.remove(story, *labels)
-    current_labels = story.labels.split(',') rescue []
-    new_labels = current_labels - labels
-    if story.update(:labels => new_labels)
+    original_label_names = story.labels.map{|l| l.name}
+    original_labels_for_delete = story.labels
+
+    labels.each do |label_name|
+      story.labels = story.labels.reject{|l| l.name == label_name }
+    end
+
+    if story.save
+      current_labels = story.labels.map{|l| l.name}
       puts "Updated labels on #{story.name}:"
-      puts "#{current_labels} => #{new_labels}"
+      puts "#{original_label_names} => #{current_labels}"
+    else
+      abort("Failed to update labels on Pivotal Tracker")
+    end
+  end
+
+  def self.remove_orig(story, *labels)
+    original_labels = story.labels.map{|l| l.name}
+    original_labels_for_delete = story.labels
+
+    labels.each do |label_name|
+      label = TrackerApi::Resources::Label.new(name: label_name)
+      found = original_labels_for_delete.detect{|orig_label| orig_label.name == label_name}
+      if (found) then
+        found.delete
+      end
+    end
+
+    if story.save
+      current_labels = story.labels.map{|l| l.name}
+      puts "Updated labels on #{story.name}:"
+      puts "#{original_labels} => #{current_labels}"
     else
       abort("Failed to update labels on Pivotal Tracker")
     end
@@ -67,6 +99,6 @@ class PivotalIntegration::Util::Label
   # @return [boolean] Boolean defining whether story was updated or not.
   def self.list(story)
     puts "Story labels:"
-    puts story.labels.split(',') rescue []
+    puts story.labels.map{|l| l.name}
   end
 end

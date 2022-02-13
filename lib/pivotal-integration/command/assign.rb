@@ -14,7 +14,6 @@
 # limitations under the License.
 
 require_relative 'base'
-require 'pivotal-tracker'
 
 # The class that encapsulates assigning current Pivotal Tracker Story to a user
 class PivotalIntegration::Command::Assign < PivotalIntegration::Command::Base
@@ -23,28 +22,32 @@ class PivotalIntegration::Command::Assign < PivotalIntegration::Command::Base
   # Assigns story to user.
   # @return [void]
   def run(*arguments)
-    username = arguments.first
+    name = arguments.first
+    person = getPersonByName(name) || choose_user
 
-    if username.nil? or !memberships.include?(username)
-      username = choose_user
-    end
-
-    PivotalIntegration::Util::Story.assign(story, username)
+    PivotalIntegration::Util::Story.assign(story, person)
   end
 
   private
 
   def choose_user
-    choose do |menu|
+    selected = choose do |menu|
       menu.prompt = 'Choose an user from above list: '
 
-      memberships.each do |membership|
+      project_member_names.each do |membership|
         menu.choice(membership)
       end
     end
+
+    getPersonByName(selected)
   end
 
-  def memberships
-    @project.memberships.all.map(&:name)
+  def project_member_names
+    @project.memberships.map{|m| m.person.name}
+  end
+
+  def getPersonByName(name)
+    return nil if name.blank? || !(membership = @project.memberships.detect{|m| m.person.name == name})
+    membership.person
   end
 end

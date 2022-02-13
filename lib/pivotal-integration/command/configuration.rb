@@ -16,10 +16,21 @@
 require_relative 'command'
 require_relative '../util/git'
 require 'highline/import'
-require 'pivotal-tracker'
+require 'tracker_api'
 
 # A class that exposes configuration that commands can use
 class PivotalIntegration::Command::Configuration
+
+  @@api_client = nil
+
+  def self.api_client
+    if @@api_client.blank? then
+      cfg = PivotalIntegration::Command::Configuration.new
+      @@api_client = TrackerApi::Client.new(token: cfg.api_token)
+    end
+
+    return @@api_client
+  end
 
   # Returns the user's Pivotal Tracker API token.  If this token has not been
   # configured, prompts the user for the value.  The value is checked for in
@@ -69,31 +80,7 @@ class PivotalIntegration::Command::Configuration
   #
   # @return [PivotalTracker::Project] The repository's Pivotal Tracker project
   def project
-    PivotalTracker::Project.find project_id
-  end
-
-  # Returns the Pivotal Tracker user id for this repository.  If this id
-  # has not been configuration, prompts the user for the value.  The value is
-  # checked for in the _inherited_ Git configuration, but is stored in the
-  # _local_ Git configuration so that it is specific to this repository.
-  #
-  # @return [String] The repository's Pivotal Tracker user id
-  def user
-    user = PivotalIntegration::Util::Git.get_config KEY_USER, :inherited
-
-    if user.empty?
-      user = choose do |menu|
-        menu.prompt = 'Choose your user name associated with this repository: '
-
-        PivotalTracker::Project.all.map{ |p| p.memberships.all.map(&:name) }.flatten.uniq.each do |owner|
-          menu.choice(owner) { owner }
-        end
-      end
-
-      PivotalIntegration::Util::Git.set_config KEY_USER, user.inspect, :local
-    end
-
-    user
+    self.class.api_client.project(project_id)
   end
 
   # Returns the story associated with the current development branch
@@ -104,7 +91,7 @@ class PivotalIntegration::Command::Configuration
     if story_id.empty?
       abort("You need to be on started story branch to do this!")
     else
-      project.stories.find(story_id)
+      project.story(story_id)
     end
   end
 
@@ -119,8 +106,6 @@ class PivotalIntegration::Command::Configuration
   private
 
   KEY_API_TOKEN = 'pivotal.api-token'.freeze
-
-  KEY_USER = 'pivotal.user'.freeze
 
   KEY_PROJECT_ID = 'pivotal.project-id'.freeze
 

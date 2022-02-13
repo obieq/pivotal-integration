@@ -14,7 +14,8 @@
 # limitations under the License.
 
 require_relative 'base'
-require 'pivotal-tracker'
+require_relative '../util/person'
+require 'highline/import'
 
 # The class that encapsulates starting a Pivotal Tracker Story
 class PivotalIntegration::Command::New < PivotalIntegration::Command::Base
@@ -22,7 +23,7 @@ class PivotalIntegration::Command::New < PivotalIntegration::Command::Base
 
   STORY_TYPES = %w(feature bug chore release)
   def run(*arguments)
-    options = self.class.collect_type_and_name(arguments)
+    options = self.class.collect_type_and_name(@configuration.project, arguments)
 
     puts
     print 'Creating new story on Pivotal Tracker... '
@@ -31,22 +32,44 @@ class PivotalIntegration::Command::New < PivotalIntegration::Command::Base
   end
 
   class << self
-    def collect_type_and_name(arguments)
+    def collect_type_and_name(project, arguments)
       type = STORY_TYPES.include?(arguments.first.try(:downcase)) ? arguments.shift : choose_type
       type = type.downcase.to_sym
 
       name = arguments.shift || ask('Provide a name for the new story: ')
+      estimate = arguments.shift || adapt_estimate_for_api_validation_rules(project)
+      person = PivotalIntegration::Util::Person.get_person_by_name(project, choose_owner_name(project, arguments.shift))
 
-      [name, type]
+      [name, type, estimate, person]
     end
 
   private
+
+    def adapt_estimate_for_api_validation_rules(project)
+      estimate = PivotalIntegration::Command::Estimate.collect_estimation(project).to_i
+      estimate > -1 ? estimate : nil # api requires null value if no estimate, i.e., user hit `enter` for none
+    end
 
     def choose_type
       choose do |menu|
         menu.prompt = 'What type of story do you want to create: '
         STORY_TYPES.each { |type| menu.choice(type.titleize) }
       end
+    end
+
+    def choose_owner_name(project, owner_name)
+      if (!owner_name)
+        owner_name = choose do |menu|
+          menu.prompt = 'Assign Owner'
+          menu.prompt = 'Select an owner from above list: '
+          menu.choice('None') {'None'}
+          project.memberships.map do |member|
+              menu.choice(member.person.name) {member.person.name}
+          end
+        end
+      end
+
+      owner_name
     end
   end
 end

@@ -14,17 +14,17 @@
 # limitations under the License.
 
 require_relative 'base'
-require 'pivotal-tracker'
+require_relative '../util/person'
 
 # The class that encapsulates assigning current Pivotal Tracker Story to a user
-class PivotalIntegration::Command::Info < PivotalIntegration::Command::Base
-  desc "Get information on the current story"
+class PivotalIntegration::Command::User < PivotalIntegration::Command::Base
+  desc "Set your pivotal tracker user name in local .gitconfig file"
 
   def run(*arguments)
-    if story
-      PivotalIntegration::Util::Story.pretty_print(story)
-    else
-      abort "No story currently selected."
-    end
+    user_name = PivotalIntegration::Util::Person.my_pivotal_tracker_user_name
+    puts "\nPivotal Tracker User Name\n  #{user_name}\n\n"
   end
+
+
+
 end

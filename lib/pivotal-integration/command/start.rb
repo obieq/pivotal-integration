@@ -14,7 +14,6 @@
 # limitations under the License.
 
 require_relative 'base'
-require 'pivotal-tracker'
 
 # The class that encapsulates starting a Pivotal Tracker Story
 class PivotalIntegration::Command::Start < PivotalIntegration::Command::Base
@@ -37,7 +36,7 @@ class PivotalIntegration::Command::Start < PivotalIntegration::Command::Base
 
     if filter == 'new'
       arguments.shift
-      story = PivotalIntegration::Util::Story.new(@project, *PivotalIntegration::Command::New.collect_type_and_name(arguments))
+      story = PivotalIntegration::Util::Story.new(@project, *PivotalIntegration::Command::New.collect_type_and_name(@project, arguments))
     else
       story = PivotalIntegration::Util::Story.select_story @project, filter
     end
@@ -73,10 +72,11 @@ class PivotalIntegration::Command::Start < PivotalIntegration::Command::Base
 
   def start_on_tracker(story)
     print 'Starting story on Pivotal Tracker... '
-    story.update(
-      :current_state => 'started',
-      :owned_by => PivotalIntegration::Util::Git.get_config('user.name')
-    )
+
+    story.current_state = 'started'
+    # story.owned_by = PivotalIntegration::Util::Git.get_config('user.name')
+    story.save
+
     puts 'OK'
   end
 
