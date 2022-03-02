@@ -22,7 +22,7 @@ pivotal user
 
 ## Local Installation
 ```sh
-gem build pivotal-integration.gemspec && gem install ./pivotal-integration-3.0.gem
+gem build pivotal-integration.gemspec && gem install ./pivotal-integration-2.0.gem
 ```
 
 ******** END WARNING ********
